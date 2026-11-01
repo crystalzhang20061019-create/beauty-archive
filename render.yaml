@@ -3,9 +3,10 @@ services:
     name: beauty-archive
     runtime: python
     plan: free
+    region: oregon
     buildCommand: ./build.sh
     startCommand: python manage.py migrate --noinput && gunicorn beauty_archive.wsgi:application --bind 0.0.0.0:${PORT:-10000}
-    autoDeploy: false
+    autoDeployTrigger: off
     envVars:
       - key: DJANGO_SECRET_KEY
         generateValue: true
