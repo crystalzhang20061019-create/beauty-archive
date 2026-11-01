@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+media/
+.env
+.env.*
+!.env.example
+staticfiles/
+beauty-archive-fixture.json
+.DS_Store
+*.pem
+*.key

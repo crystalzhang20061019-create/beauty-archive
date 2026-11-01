@@ -1,0 +1,1 @@
+{% extends 'archive/base.html' %}{% block title %}Edit wishlist item{% endblock %}{% block content %}<div class="narrow"><a class="back-link" href="{% url 'wishlist' %}">← Back to wishlist</a><h1>Edit your wish</h1><form method="post" class="edit-form form-stack">{% csrf_token %}{{ form.as_p }}<button class="button primary">Save changes</button></form></div>{% endblock %}

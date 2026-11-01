@@ -1,0 +1,22 @@
+{% extends 'archive/base.html' %}
+{% block title %}Browse collection · Beauty Archive{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><span class="eyebrow">FIND YOUR FAVORITES</span><h1>Browse by {% if mode == 'brand' %}brand{% else %}category{% endif %}</h1><p class="muted">Two ways into one shared collection.</p></div>
+  <a class="button primary" href="{% url 'product_add' %}">＋ Add a product</a>
+</div>
+<div class="browse-tabs"><a class="{% if mode == 'category' %}active{% endif %}" href="{% url 'browse' 'category' %}">By category</a><a class="{% if mode == 'brand' %}active{% endif %}" href="{% url 'browse' 'brand' %}">By brand</a><a href="{% url 'collection' %}">All products</a></div>
+{% if groups %}
+<section class="panel browse-panel">
+  <div class="panel-heading"><div><span class="eyebrow">YOUR COLLECTION</span><h2>{{ heading }}</h2></div><span class="muted">{{ groups|length }} groups</span></div>
+  <div class="browse-group-grid">{% for group in groups %}<a class="browse-group" href="{{ group.url }}"><span class="browse-group-name">{{ group.name }}</span><span class="browse-group-count">{{ group.count }} item{{ group.count|pluralize }}</span><span class="browse-group-arrow">→</span></a>{% endfor %}</div>
+</section>
+{% endif %}
+{% if items %}
+<section class="panel"><div class="panel-heading"><div><span class="eyebrow">YOUR PIECES</span><h2>{{ heading }}</h2></div></div>
+  <div class="product-grid">{% for item in items %}<a class="product-card" href="{% url 'product_detail' item.pk %}"><div class="product-image">{% if item.image %}<img src="{{ item.image.url }}" alt="{{ item.product }}">{% else %}<span class="image-flower">✿</span>{% endif %}<span class="status-pill {{ item.status }}">{{ item.get_status_display }}</span></div><div class="product-info"><span class="product-brand">{{ item.product.brand.name }}</span><h3>{{ item.product.name }}</h3><p>{{ item.product.shade_code }}{% if item.product.shade_name %} · {{ item.product.shade_name }}{% endif %}</p></div></a>{% endfor %}</div>
+</section>
+{% elif not groups %}
+<div class="empty-state"><span>✿</span><h2>No products in this path yet</h2><p>Try another category or add a product to your collection.</p><a class="button primary" href="{% url 'product_add' %}">Add a product</a></div>
+{% endif %}
+{% endblock %}
