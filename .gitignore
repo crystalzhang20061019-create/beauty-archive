@@ -8,6 +8,8 @@ media/
 !.env.example
 staticfiles/
 beauty-archive-fixture.json
+private-backup/
+.render/
 .DS_Store
 *.pem
 *.key

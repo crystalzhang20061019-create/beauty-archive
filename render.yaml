@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: beauty-archive
+    runtime: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: python manage.py migrate --noinput && gunicorn beauty_archive.wsgi:application --bind 0.0.0.0:${PORT:-10000}
+    autoDeploy: false
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: USE_SUPABASE_STORAGE
+        value: "1"
+      - key: DATABASE_URL
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_STORAGE_BUCKET_NAME
+        value: beauty-archive-private
+      - key: AWS_S3_ENDPOINT_URL
+        sync: false
+      - key: AWS_S3_REGION_NAME
+        sync: false

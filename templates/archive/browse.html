@@ -14,7 +14,7 @@
 {% endif %}
 {% if items %}
 <section class="panel"><div class="panel-heading"><div><span class="eyebrow">YOUR PIECES</span><h2>{{ heading }}</h2></div></div>
-  <div class="product-grid">{% for item in items %}<a class="product-card" href="{% url 'product_detail' item.pk %}"><div class="product-image">{% if item.image %}<img src="{{ item.image.url }}" alt="{{ item.product }}">{% else %}<span class="image-flower">✿</span>{% endif %}<span class="status-pill {{ item.status }}">{{ item.get_status_display }}</span></div><div class="product-info"><span class="product-brand">{{ item.product.brand.name }}</span><h3>{{ item.product.name }}</h3><p>{{ item.product.shade_code }}{% if item.product.shade_name %} · {{ item.product.shade_name }}{% endif %}</p></div></a>{% endfor %}</div>
+  <div class="product-grid">{% for item in items %}<a class="product-card" href="{% url 'product_detail' item.pk %}"><div class="product-image">{% if item.image %}<img src="{{ item.private_image_url }}" alt="{{ item.product }}">{% else %}<span class="image-flower">✿</span>{% endif %}<span class="status-pill {{ item.status }}">{{ item.get_status_display }}</span></div><div class="product-info"><span class="product-brand">{{ item.product.brand.name }}</span><h3>{{ item.product.name }}</h3><p>{{ item.product.shade_code }}{% if item.product.shade_name %} · {{ item.product.shade_name }}{% endif %}</p></div></a>{% endfor %}</div>
 </section>
 {% elif not groups %}
 <div class="empty-state"><span>✿</span><h2>No products in this path yet</h2><p>Try another category or add a product to your collection.</p><a class="button primary" href="{% url 'product_add' %}">Add a product</a></div>

@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 CURRENCIES = [(c, c) for c in "USD CNY EUR GBP JPY KRW THB HKD TWD CAD AUD".split()]
@@ -70,6 +71,9 @@ class InventoryItem(models.Model):
             month = month % 12 + 1
             dates.append(date(year, month, min(self.open_date.day, monthrange(year, month)[1])))
         return min(dates) if dates else None
+    @property
+    def private_image_url(self):
+        return reverse("private_media", kwargs={"path": self.image.name}) if self.image else ""
     @property
     def total_uses(self): return sum(self.usage_records.values_list("count", flat=True))
     @property
