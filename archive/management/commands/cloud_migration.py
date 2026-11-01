@@ -28,8 +28,18 @@ def stage_fixture(stdout):
         fixture.flush()
         fixture.seek(0)
         records = json.load(fixture)
-        usernames = sorted({str(obj.get("fields", {}).get("user")) for obj in records
-                            if obj.get("model") == "archive.usersettings" and obj.get("fields", {}).get("user")})
+        usernames = set()
+        for obj in records:
+            if obj.get("model") != "archive.usersettings":
+                continue
+            user_key = obj.get("fields", {}).get("user")
+            # With natural_foreign=True, Django serializes a user's natural key
+            # as a list (for the built-in User model, typically [username]).
+            if isinstance(user_key, (list, tuple)):
+                user_key = user_key[0] if len(user_key) == 1 else None
+            if user_key:
+                usernames.add(str(user_key))
+        usernames = sorted(usernames)
         if len(usernames) != 1:
             raise CommandError(f"Expected one archive owner in the fixture; found {len(usernames)}.")
         # Keep only an unusable-password cloud owner; never copy the local password hash.
